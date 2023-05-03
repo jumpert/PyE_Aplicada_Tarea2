@@ -267,3 +267,8 @@ elif modo == "A":
     main_auto(1000)
     main_auto(10000)
     main_auto(100000)
+    print("Fin de la simulación de 1000, 10000 y 100000 tiradas")
+    print("Presione cualquier tecla para salir")
+    while True:
+        if msvcrt.kbhit():
+            break

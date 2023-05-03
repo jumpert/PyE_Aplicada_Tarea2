@@ -236,14 +236,12 @@ def main_auto(veces):
     print("-----------------------------------------------------------------------")
 
 def tiradas():
-    
     try :
         veces = int(input("Ingrese la cantidad de veces que desea jugar: "))
     except ValueError:
         print("Por favor ingrese un número entero")
         veces = tiradas()
     return veces
-
 
 def tipo_juegos():
     try :
@@ -258,7 +256,6 @@ def tipo_juegos():
         tipo_juego = tipo_juegos()
     return tipo_juego
        
-
 modo = tipo_juegos()
 if modo == "M":
     veces = tiradas()

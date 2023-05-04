@@ -1,23 +1,26 @@
 #Grupo: Estefany Clara, Gonzalo Paz y Juan Pérez
 
-"""2 jugadores, juan tira 2 dados, si sale algun 4 el tiene la opción de de elegir entre tirar de nuevo o quedarse con el puntaje obtenido hasta el momento, dicho puntaje solo equivale al dado distinto de 4.
+"""El objetivo de esta tarea es utilizar la probabilidad condicional como herramienta para analizar un
+juego de dados entre dos jugadores. Se hallarán analíticamente probabilidades de que uno de los jugadores
+obtenga ciertos puntajes. También buscamos realizar una simulación para determinar si uno de los
+jugadores tiene ventaja sobre el otro.
 
-Estrategia de Juan
-si Juan obtiene 0 puntos en la primera tirada, tira de nuevo y ese es su puntaje
-si juan obtiene x puntos con 1<=x<=6
-	si x => 4 juan no tira de nuevo.
-	si x = 3 juan tira de nuevo el dado distinto de 4
-1- hallar la probabilidad de que juan saque k puntos.
-2- cual es la prob. de que juan tenga 0 puntos en el primer lanzamiento, sabiendo que juan obtuvo 5 puntos en el juego?  (probabilidad condicional)"""
+A continuación se explican las reglas del juego. El juego requiere dos dados para jugarse y se desarrolla
+entre dos jugadores, que llamaremos Juan y María. Ambos jugadores lanzarán los dos dados obteniendo
+cierto puntaje en el conjunto {0, 1, 2, 3, 4, 5, 6}, gana el jugador que obtiene más puntos pero observemos
+que es posible empatar el juego. Empezamos detallando los puntajes asociados a cada resultado posible
+al tirar dos dados"""
 
 import msvcrt
 import random
 
+#La función tirar_dados() simula el lanzamiento de dos dados y retorna los valores obtenidos en cada dado.
 def tirar_dados():
     dado1 = random.randint(1,6)
     dado2 = random.randint(1,6)
     return dado1, dado2
 
+#La función tirar_dado() simula el lanzamiento de un dado y retorna el valor obtenido.
 def tirar_dado():
     dado = random.randint(1,6)
     return dado
@@ -32,6 +35,7 @@ tabla += "Dado 1  Dado 2  Puntaje |Dado 1  Dado 2  Puntaje |Ganador\n"
 jugadas = ""
 contador = 0
 
+#La función jugar() simula una partida del juego de dados entre dos jugadores.
 def jugar():
     global tabla
     global contador
@@ -39,9 +43,8 @@ def jugar():
     jugada = ""
     resumen = ""
     
-    puntos_j1 = 0
     #juega el jugador1
-
+    puntos_j1 = 0
     dado1, dado2 = tirar_dados()
     jugada += "Juan tiro los dados y salio: {} {}\n".format(dado1, dado2)
     if dado1 != 4 and dado2 != 4:
@@ -166,7 +169,7 @@ def jugar():
         break    
     contador += 1
 
-"""La función mostrar_jugadas() recibe un parametro booleano que indica si se debe mostrar o no las jugadas realizadas"""
+#La función mostrar_jugadas() recibe un parametro booleano que indica si se debe mostrar o no las jugadas realizadas
 def mostrar_jugadas(mostrar):
 
     if mostrar == "S":
@@ -181,7 +184,7 @@ def mostrar_jugadas(mostrar):
         ver_jug = input("Desea mostrar las jugadas realizadas? (S/N): ").upper()
         mostrar_jugadas(ver_jug)
 
-"""La función mostrar_resumen() recibe un parametro booleano que indica si se debe mostrar o no el resumen de las jugadas realizadas"""
+#La función mostrar_resumen() recibe un parametro booleano que indica si se debe mostrar o no el resumen de las jugadas realizadas
 def mostrar_resumen(mostrar):
     if mostrar == "S":
         print("-----------------------------------------------------------------------")
@@ -195,6 +198,7 @@ def mostrar_resumen(mostrar):
         ver_tab = input("Desea mostrar la tabla de resumen de las jugadas realizadas? (S/N): ").upper()
         mostrar_resumen(ver_tab)
 
+#La función main() recibe un parametro que indica la cantidad de veces que se desea jugar en modo manual
 def main(veces):
     print("-----------------------------------------------------------------------")
     print("Comienza el juego")
@@ -208,12 +212,12 @@ def main(veces):
     ver_jug = input("Desea mostrar 10 de las jugadas realizadas? (S/N): ").upper()
     mostrar_jugadas(ver_jug)
     """El sistema indica si se desea mostrar el resumen de las jugadas realizadas"""
-    ver_tab= input("Desea mostrar la tabla de resumen con 10 jugadas realizadas? (S/N): ").upper()
+    ver_tab = input("Desea mostrar la tabla de resumen con 10 jugadas realizadas? (S/N): ").upper()
     mostrar_resumen(ver_tab)
     print("-----------------------------------------------------------------------")
-    print("{}\t |{}\t | Empates".format(jugador1, jugador2))
-    print("{}\t |{}\t | {}".format(victorias_j1, victorias_j2, empates))
-    print("{}%\t |{}%\t | {}%".format(round((victorias_j1*100/veces),1), round((victorias_j2*100/veces),1), round((empates*100/veces),1)))
+    print("\t\t{}\t |{}\t | Empates".format(jugador1, jugador2))
+    print("Resultados\t{}\t |{}\t | {}".format(victorias_j1, victorias_j2, empates))
+    print("Freq. Rel.\t{}%\t |{}%\t | {}%".format(round((victorias_j1*100/veces),1), round((victorias_j2*100/veces),1), round((empates*100/veces),1)))
     print("-----------------------------------------------------------------------")
     print("Fin del juego")
     print("Presione cualquier tecla para salir")
@@ -221,6 +225,7 @@ def main(veces):
         if msvcrt.kbhit():
             break
 
+#La función main_auto() recibe un parametro que indica la cantidad de veces que se desea jugar en modo automatico
 def main_auto(veces):
     print("-----------------------------------------------------------------------")
     print("Se realizaran {:,.0f} tiradas".format(veces).replace(",", "@").replace(".", ",").replace("@", "."))
@@ -230,13 +235,13 @@ def main_auto(veces):
     print(jugador2," tiene: ", victorias_j2, "victorias")
     print("Hay ", empates, "empates")
     print("-----------------------------------------------------------------------")
-    print("{}\t |{}\t | Empates".format(jugador1, jugador2))
-    print("{}\t |{}\t | {}".format(victorias_j1, victorias_j2, empates))
-    print("{}%\t |{}%\t | {}%".format(round((victorias_j1*100/veces),1), round((victorias_j2*100/veces),1), round((empates*100/veces),1)))
+    print("\t\t{}\t |{}\t | Empates".format(jugador1, jugador2))
+    print("Resultados\t{}\t |{}\t | {}".format(victorias_j1, victorias_j2, empates))
+    print("Freq. Rel.\t{}%\t |{}%\t | {}%".format(round((victorias_j1*100/veces),1), round((victorias_j2*100/veces),1), round((empates*100/veces),1)))
     print("-----------------------------------------------------------------------")
 
+#La función tiradas() solicita al usuario la cantidad de veces que desea jugar y valida que sea un número entero
 def tiradas():
-    
     try :
         veces = int(input("Ingrese la cantidad de veces que desea jugar: "))
     except ValueError:
@@ -244,7 +249,7 @@ def tiradas():
         veces = tiradas()
     return veces
 
-
+#La función tipo_juegos() solicita al usuario el tipo de juego que desea realizar y valida que sea un caracter correcto
 def tipo_juegos():
     try :
         tipo_juego = input("Ingrese el tipo de juego: Manual (M) o Automático (A): ").upper()
@@ -257,17 +262,23 @@ def tipo_juegos():
         print("Por favor ingrese un caracter correcto (M o A)")
         tipo_juego = tipo_juegos()
     return tipo_juego
-       
 
+#Comienza el programa principal solicitando el tipo de juego que se desea realizar
 modo = tipo_juegos()
 if modo == "M":
     veces = tiradas()
     main(veces)
 elif modo == "A":
     main_auto(1000)
+    victorias_j1 = 0
+    victorias_j2 = 0
+    empates = 0
     main_auto(10000)
+    victorias_j1 = 0
+    victorias_j2 = 0
+    empates = 0
     main_auto(100000)
-    print("Fin de la simulación de 1000, 10000 y 100000 tiradas")
+    print("Fin de la simulación de 1.000, 10.000 y 100.000 tiradas")
     print("Presione cualquier tecla para salir")
     while True:
         if msvcrt.kbhit():
